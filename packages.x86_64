@@ -1,0 +1,219 @@
+# BoraOS 0.1 - Package List
+# Architecture: x86_64 only, no multilib
+
+# ============================================
+# BASE SYSTEM
+# ============================================
+base
+base-devel
+linux
+linux-firmware
+linux-headers
+mkinitcpio
+systemd
+systemd-sysvcompat
+udev
+
+# ============================================
+# FILESYSTEM & DISK UTILITIES
+# ============================================
+e2fsprogs
+dosfstools
+ntfs-3g
+exfatprogs
+btrfs-progs
+f2fs-tools
+xfsprogs
+parted
+gptfdisk
+util-linux
+coreutils
+findutils
+grep
+sed
+gawk
+tar
+gzip
+bzip2
+xz
+zstd
+unzip
+zip
+p7zip
+
+# ============================================
+# NETWORKING
+# ============================================
+networkmanager
+nm-connection-editor
+network-manager-applet
+wpa_supplicant
+wireless_tools
+iw
+iwd
+dhcpcd
+dnsmasq
+openssh
+wget
+curl
+rsync
+inetutils
+iproute2
+iputils
+bind
+nss-mdns
+
+# ============================================
+# BLUETOOTH
+# ============================================
+bluez
+bluez-utils
+blueman
+
+# ============================================
+# TIME SYNCHRONIZATION
+# ============================================
+systemd-timesyncd
+
+# ============================================
+# DISPLAY SERVER & GRAPHICS
+# ============================================
+wayland
+wayland-protocols
+xorg-xwayland
+mesa
+vulkan-icd-loader
+vulkan-intel
+vulkan-radeon
+libva-mesa-driver
+mesa-vdpau
+
+# ============================================
+# HYPRLAND WINDOW MANAGER
+# ============================================
+hyprland
+xdg-desktop-portal
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+xdg-user-dirs
+xdg-utils
+qt5-wayland
+qt6-wayland
+gtk3
+gtk4
+
+# ============================================
+# DISPLAY MANAGER
+# ============================================
+sddm
+qt5-svg
+qt5-quickcontrols2
+qt5-graphicaleffects
+
+# ============================================
+# PANEL & LAUNCHER
+# ============================================
+waybar
+rofi-wayland
+
+# ============================================
+# WALLPAPER MANAGER
+# ============================================
+hyprpaper
+
+# ============================================
+# TERMINAL
+# ============================================
+alacritty
+
+# ============================================
+# FILE MANAGER
+# ============================================
+yazi
+ffmpegthumbnailer
+ueberzug
+poppler
+fd
+ripgrep
+fzf
+zoxide
+
+# ============================================
+# AUDIO
+# ============================================
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+pavucontrol
+alsa-utils
+
+# ============================================
+# SYSTEM UTILITIES
+# ============================================
+btop
+htop
+neofetch
+lsd
+bat
+grim
+slurp
+wl-clipboard
+cliphist
+brightnessctl
+pamixer
+playerctl
+polkit
+polkit-gnome
+gnome-keyring
+seahorse
+
+# ============================================
+# FONTS
+# ============================================
+ttf-dejavu
+ttf-liberation
+ttf-font-awesome
+ttf-jetbrains-mono
+noto-fonts
+noto-fonts-emoji
+ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-mono
+
+# ============================================
+# DEVELOPMENT TOOLS (from spec)
+# ============================================
+git
+github-cli
+vim
+nano
+neovim
+
+# ============================================
+# ADDITIONAL SPECIFIED PACKAGES
+# ============================================
+btop
+git
+curl
+wget
+
+# ============================================
+# ARCHISO SPECIFIC
+# ============================================
+archinstall
+arch-install-scripts
+memtest86+
+mtools
+syslinux
+efibootmgr
+edk2-shell
+
+# ============================================
+# SYSTEM ADMINISTRATION
+# ============================================
+sudo
+man-db
+man-pages
+less
+which

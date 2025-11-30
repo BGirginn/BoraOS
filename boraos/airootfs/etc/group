@@ -1,0 +1,9 @@
+root:x:0:root
+wheel:x:10:root
+audio:x:92:
+video:x:95:
+network:x:96:
+optical:x:97:
+storage:x:98:
+scanner:x:99:
+input:x:102:

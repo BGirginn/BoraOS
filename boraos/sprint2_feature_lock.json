@@ -1,0 +1,187 @@
+{
+    "sprint": 2,
+    "version": "0.1",
+    "status": "validated",
+    "validation_date": "2025-11-30",
+    "locale": {
+        "default": "en_US.UTF-8",
+        "iso_locales": [
+            "en_US.UTF-8"
+        ],
+        "additional_locales": "user_selectable_at_install",
+        "keyboard_default": "EN",
+        "keyboard_selection": "install_time"
+    },
+    "cli_tools": {
+        "core_mandatory": [
+            "usbutils",
+            "pciutils",
+            "rsync",
+            "p7zip",
+            "unzip",
+            "ntfs-3g",
+            "dosfstools",
+            "btrfs-progs"
+        ],
+        "enhanced_in_iso": [
+            "btop",
+            "htop",
+            "fastfetch",
+            "xfsprogs",
+            "f2fs-tools"
+        ],
+        "additional_install_time": [
+            "mtools",
+            "jq",
+            "yq",
+            "lsof",
+            "tmux",
+            "screenshot_editors",
+            "additional_file_managers",
+            "devtools"
+        ]
+    },
+    "network_tools": {
+        "core_in_iso": [
+            "ethtool",
+            "iw",
+            "wireless_tools",
+            "net-tools"
+        ],
+        "additional_install_time": [
+            "nmap",
+            "iperf3",
+            "extended_network_tools"
+        ]
+    },
+    "filesystem_tools": {
+        "core": [
+            "btrfs-progs",
+            "ntfs-3g",
+            "dosfstools"
+        ],
+        "enhanced": [
+            "xfsprogs",
+            "f2fs-tools"
+        ],
+        "additional": [
+            "mtools"
+        ]
+    },
+    "hyprland_packages": {
+        "core_mandatory": [
+            "hyprlock",
+            "hypridle",
+            "wlogout",
+            "cliphist",
+            "grim",
+            "slurp"
+        ],
+        "optional_install_time": [
+            "swww",
+            "swappy",
+            "hyprshade",
+            "hyprcursor",
+            "hyprprop",
+            "wl-clipboard",
+            "all_other_hyprland_packages"
+        ]
+    },
+    "sddm_themes": {
+        "core_theme": {
+            "name": "boraos-minimal",
+            "description": "BoraOS Minimal Custom Theme",
+            "type": "logo-free, ultra-light, QML+CSS",
+            "location": "/usr/share/sddm/themes/boraos-minimal/",
+            "features": [
+                "dark_modern_aesthetic",
+                "tokyo_night_colors",
+                "minimal_ui_elements",
+                "no_branding",
+                "session_selector",
+                "power_controls",
+                "live_clock",
+                "login_feedback"
+            ]
+        },
+        "additional_themes_install_time": [
+            "nord",
+            "tokyo-night",
+            "sugar-dark",
+            "breeze-simple",
+            "fluent-minimal",
+            "all_other_sddm_themes"
+        ]
+    },
+    "security_network_time": {
+        "bluetooth": {
+            "enabled": true,
+            "service": "bluetooth.service"
+        },
+        "ssh": {
+            "enabled": false,
+            "rationale": "security_disabled_by_default"
+        },
+        "avahi": {
+            "enabled": false,
+            "rationale": "not_required_reduces_complexity"
+        },
+        "time_sync": {
+            "enabled": true,
+            "service": "systemd-timesyncd.service"
+        },
+        "sudo_policy": "user_password_required",
+        "live_users": {
+            "count": 1,
+            "users": [
+                "root"
+            ],
+            "installer_creates": "user_credentials"
+        },
+        "timezone": "user_selectable_at_install",
+        "disklabel": "boraos_01"
+    },
+    "session_configuration": {
+        "wallpaper": {
+            "manager": "hyprpaper",
+            "type": "abstract_modern"
+        },
+        "desktop_environment": {
+            "compositor": "hyprland",
+            "window_management": "modern_hybrid"
+        },
+        "panel": {
+            "application": "waybar",
+            "profile": "medium"
+        },
+        "branding": "none_proprietary_free",
+        "core_applications": {
+            "terminal": "alacritty",
+            "file_manager": "yazi",
+            "launcher": "rofi-wayland"
+        }
+    },
+    "build_metadata": {
+        "iso_name": "boraos",
+        "iso_label": "BORAOS_01",
+        "iso_version": "0.1",
+        "build_mode": "iso",
+        "filesystem": "squashfs+zstd",
+        "compression_level": 15,
+        "boot_modes": [
+            "bios_syslinux",
+            "uefi_systemd-boot"
+        ],
+        "kernel": "linux",
+        "multilib": false
+    },
+    "validation_summary": {
+        "total_sections": 8,
+        "passed": 8,
+        "failed": 0,
+        "packages_added": 18,
+        "locale_fixed": true,
+        "theme_created": true,
+        "status": "all_validations_passed"
+    }
+}

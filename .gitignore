@@ -1,0 +1,21 @@
+# Build artifacts
+boraos/build/work/
+boraos/build/out/*.iso
+boraos/build/out/SHA256SUMS
+boraos/build/logs/*.log
+boraos/build/environment.sh
+
+# System files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Temp files
+*.tmp
+*.bak

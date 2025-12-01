@@ -1,0 +1,44 @@
+# BoraOS Yazi File Manager Configuration
+
+[manager]
+show_hidden = false
+show_symlink = true
+sort_by = "natural"
+sort_dir_first = true
+linemode = "size"
+scrolloff = 5
+
+[preview]
+tab_size = 2
+max_width = 600
+max_height = 900
+cache_dir = ""
+
+[opener]
+edit = [
+    { exec = '$EDITOR "$@"', block = true },
+]
+open = [
+    { exec = 'xdg-open "$@"', desc = "Open" },
+]
+reveal = [
+    { exec = 'exiftool "$1"; echo "Press enter to exit"; read', block = true, desc = "Show EXIF" },
+]
+
+[open]
+rules = [
+    { mime = "text/*", use = "edit" },
+    { mime = "image/*", use = "open" },
+    { mime = "video/*", use = "open" },
+    { mime = "audio/*", use = "open" },
+    { mime = "inode/directory", use = "open" },
+    { mime = "*", use = "open" },
+]
+
+[tasks]
+micro_workers = 5
+macro_workers = 10
+bizarre_retry = 5
+
+[log]
+enabled = false

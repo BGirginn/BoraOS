@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=BoraOS Minimal
+Description=Ultra-light, logo-free minimal SDDM theme for BoraOS
+Author=BoraOS Project
+Copyright=(c) 2024 BoraOS Project
+License=GPL-3.0
+Type=sddm-theme
+Version=0.1
+Website=
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=boraos-minimal
+Theme-Background=

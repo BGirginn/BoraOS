@@ -18,7 +18,7 @@ arch="x86_64"
 pacman_conf="pacman.conf"
 
 # Bootloader Configuration
-# Hybrid boot: systemd-boot (UEFI) + syslinux (BIOS)
+# Modern boot modes for mkarchiso v87+
 bootmodes=('bios.syslinux.mbr' 'bios.syslinux.eltorito' 'uefi-x64.systemd-boot.esp' 'uefi-x64.systemd-boot.eltorito')
 
 # Filesystem Configuration
@@ -32,4 +32,6 @@ file_permissions=(
   ["/etc/shadow"]="0:0:400"
   ["/etc/gshadow"]="0:0:400"
   ["/root"]="0:0:750"
+  ["/root/.automated_script.sh"]="0:0:755"
+  ["/etc/sudoers.d/g_wheel"]="0:0:440"
 )

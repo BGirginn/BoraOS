@@ -120,3 +120,11 @@ bzip2
 
 # Time sync
 systemd-timesyncd
+
+# ArchISO Specific - REQUIRED FOR BUILD
+syslinux
+arch-install-scripts
+archinstall
+memtest86+
+mtools
+edk2-shell

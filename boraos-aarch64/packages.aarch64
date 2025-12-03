@@ -72,7 +72,7 @@ blueman
 # ============================================
 # TIME SYNCHRONIZATION
 # ============================================
-systemd-timesyncd
+# systemd-timesyncd is part of systemd package on ARM64
 
 # ============================================
 # DISPLAY SERVER & GRAPHICS
@@ -113,7 +113,8 @@ qt5-graphicaleffects
 # PANEL & LAUNCHER
 # ============================================
 waybar
-rofi-wayland
+# rofi-wayland not available on ARM64, using rofi instead
+rofi
 
 # ============================================
 # WALLPAPER MANAGER
@@ -153,7 +154,8 @@ alsa-utils
 # ============================================
 btop
 htop
-neofetch
+# neofetch is deprecated, using fastfetch instead
+fastfetch
 lsd
 bat
 grim
@@ -194,10 +196,8 @@ neovim
 # ============================================
 # U-Boot for various ARM boards
 uboot-tools
-# Raspberry Pi specific firmware and bootloader
-# NOTE: Only needed for Raspberry Pi builds, can be removed for generic ARM64 UEFI builds
-raspberrypi-bootloader
-raspberrypi-firmware
+# Raspberry Pi packages removed - not available in standard ARM repos
+# For Pi-specific builds, use Arch Linux ARM repositories
 # GRUB for UEFI ARM systems (Apple Silicon, generic ARM64 UEFI boards, etc.)
 grub
 efibootmgr
@@ -208,7 +208,7 @@ efibootmgr
 archinstall
 arch-install-scripts
 mtools
-edk2-shell
+# edk2-shell not available on ARM64
 
 # ============================================
 # SYSTEM ADMINISTRATION

@@ -195,9 +195,10 @@ neovim
 # U-Boot for various ARM boards
 uboot-tools
 # Raspberry Pi specific firmware and bootloader
+# NOTE: Only needed for Raspberry Pi builds, can be removed for generic ARM64 UEFI builds
 raspberrypi-bootloader
 raspberrypi-firmware
-# GRUB for UEFI ARM systems
+# GRUB for UEFI ARM systems (Apple Silicon, generic ARM64 UEFI boards, etc.)
 grub
 efibootmgr
 

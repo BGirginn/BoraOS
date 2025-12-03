@@ -19,7 +19,7 @@ pacman_conf="pacman.conf"
 
 # Bootloader Configuration
 # Modern boot modes for mkarchiso v87+
-bootmodes=('bios.syslinux.mbr' 'bios.syslinux.eltorito' 'uefi-x64.systemd-boot.esp' 'uefi-x64.systemd-boot.eltorito')
+bootmodes=('bios.syslinux' 'uefi.systemd-boot')
 
 # Filesystem Configuration
 # Using squashfs with zstd compression as specified

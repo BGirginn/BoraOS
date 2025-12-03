@@ -13,7 +13,7 @@ buildmodes=("iso")
 # ARM64 specific bootmodes
 # Note: systemd-boot is not available on ARM64
 # Using GRUB for UEFI ARM64 systems
-bootmodes=("uefi-aa64.grub.esp" "uefi-aa64.grub.eltorito")
+bootmodes=("uefi.grub")
 
 arch="aarch64"
 pacman_conf="pacman.conf"

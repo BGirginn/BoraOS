@@ -14,10 +14,32 @@ echo "  Bootloader type: $BOOTLOADER_TYPE"
 if [ "$BOOTLOADER_TYPE" == "grub" ]; then
     echo "  Configuring GRUB for UEFI ARM64..."
     
-    # GRUB configuration will be handled by mkarchiso
-    # Additional GRUB customizations can be added here
+    # Verify GRUB is installed on host system
+    if ! pacman -Q grub &>/dev/null; then
+        echo "  ⚠️  ERROR: GRUB package not installed on host system"
+        echo "  Please run: sudo pacman -S grub"
+        exit 1
+    fi
     
-    echo "  ✓ GRUB configuration prepared"
+    # Detect GRUB aarch64-efi module path
+    GRUB_ARM_PATH="/usr/lib/grub/aarch64-efi"
+    if [ ! -d "$GRUB_ARM_PATH" ]; then
+        echo "  ⚠️  ERROR: GRUB ARM64 modules not found at $GRUB_ARM_PATH"
+        echo "  This may indicate GRUB is not built with ARM64 support"
+        echo "  You may need to build GRUB from source with ARM64 support"
+        exit 1
+    fi
+    
+    # Create GRUB module directory in profile
+    PROFILE_GRUB_DIR="$(pwd)/boraos-aarch64/grub"
+    mkdir -p "$PROFILE_GRUB_DIR/aarch64-efi"
+    
+    # Copy GRUB modules to profile
+    echo "  Copying GRUB ARM64 modules from $GRUB_ARM_PATH..."
+    cp -r "$GRUB_ARM_PATH"/* "$PROFILE_GRUB_DIR/aarch64-efi/"
+    
+    echo "  ✓ GRUB ARM64 modules prepared at $PROFILE_GRUB_DIR"
+    echo "  ✓ GRUB configuration completed"
     
 elif [ "$BOOTLOADER_TYPE" == "uboot" ]; then
     echo "  Configuring U-Boot for Raspberry Pi..."

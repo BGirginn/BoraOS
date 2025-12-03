@@ -50,13 +50,15 @@ wayland
 xorg-xwayland
 mesa
 vulkan-icd-loader
-vulkan-intel
-vulkan-radeon
+# Vulkan drivers for common hardware - both included for live ISO compatibility
+vulkan-intel    # Intel integrated graphics
+vulkan-radeon   # AMD graphics
 
 # Display Manager
 sddm
-qt5-wayland
-qt6-wayland
+# Qt5 and Qt6 Wayland support - both included for app compatibility
+qt5-wayland     # For Qt5-based applications
+qt6-wayland     # For Qt6-based applications
 
 # Desktop Environment - Hyprland
 hyprland

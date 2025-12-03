@@ -37,6 +37,7 @@ REQUIRED_TOOLS=(
     "mkarchiso"
     "mkinitcpio"
     "mksquashfs"
+    "grub-mkimage"
 )
 
 MISSING_TOOLS=()
@@ -57,7 +58,7 @@ if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
     done
     echo ""
     echo "Install missing tools:"
-    echo "  sudo pacman -S archiso squashfs-tools"
+    echo "  sudo pacman -S archiso squashfs-tools grub"
     exit 1
 fi
 

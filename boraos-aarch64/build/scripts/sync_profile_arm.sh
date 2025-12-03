@@ -28,6 +28,12 @@ if [ -d "airootfs" ]; then
     echo "  ✓ Copied airootfs overlay"
 fi
 
+# Copy grub directory if it exists (required for uefi.grub boot mode)
+if [ -d "grub" ]; then
+    cp -r grub "$WORK_PROFILE/"
+    echo "  ✓ Copied grub configuration"
+fi
+
 # Set deterministic timestamps on all files
 echo "  Setting deterministic timestamps..."
 find "$WORK_PROFILE" -exec touch -d "@${SOURCE_DATE_EPOCH}" {} +

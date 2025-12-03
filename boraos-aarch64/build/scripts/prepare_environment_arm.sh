@@ -37,7 +37,6 @@ REQUIRED_TOOLS=(
     "mkarchiso"
     "mkinitcpio"
     "mksquashfs"
-    "grub-mkimage"
 )
 
 MISSING_TOOLS=()
@@ -50,6 +49,13 @@ for tool in "${REQUIRED_TOOLS[@]}"; do
     fi
 done
 
+# Check for GRUB (recommended but not required)
+if ! command -v grub-mkimage &> /dev/null; then
+    echo "  ⚠️  grub-mkimage not found (recommended for ARM64 builds)"
+else
+    echo "  ✓ grub-mkimage"
+fi
+
 if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
     echo ""
     echo "ERROR: Missing required tools:"
@@ -58,7 +64,7 @@ if [ ${#MISSING_TOOLS[@]} -ne 0 ]; then
     done
     echo ""
     echo "Install missing tools:"
-    echo "  sudo pacman -S archiso squashfs-tools grub"
+    echo "  sudo pacman -S archiso squashfs-tools"
     exit 1
 fi
 

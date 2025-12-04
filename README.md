@@ -1,50 +1,10 @@
-# BoraOS 0.1
+# BoraOS 0.1 - x86_64
 
-**A modern ArchISO-based Linux distribution featuring Hyprland Wayland compositor**
+**A modern Arch Linux distribution featuring Hyprland Wayland compositor**
 
 ## Overview
 
-BoraOS is a minimal, modern Linux distribution built on Arch Linux using the ArchISO build system. It features the Hyprland Wayland compositor with a curated selection of modern applications and tools.
-
-**Now available for both x86_64 and ARM64 architectures!**
-
----
-
-## Architectures
-
-### x86_64 (Intel/AMD)
-- **Directory**: `Bora_OS_x86/`
-- **Bootloader**: systemd-boot (UEFI), Syslinux (BIOS), GRUB (both)
-- **Status**: Production-ready
-- **Platforms**: Standard PCs, laptops, servers, VMs
-
-### ARM64 (aarch64)
-- **Directory**: `Bora_OS_ARM/`
-- **Bootloader**: GRUB (UEFI ARM64) or U-Boot (Raspberry Pi)
-- **Status**: Experimental
-- **Platforms**: Raspberry Pi 4/5, Apple Silicon, ARM servers
-
----
-
-## Quick Start
-
-### x86_64 Build
-```bash
-cd Bora_OS_x86
-sudo ./build/build-x86.sh
-```
-
-**Output**: `Bora_OS_x86/build/out/boraos-0.1-x86_64.iso`
-
-### ARM64 Build
-```bash
-cd Bora_OS_ARM
-sudo ./build/build-arm.sh
-```
-
-**Output**: 
-- UEFI: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.iso`
-- Raspberry Pi: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.img`
+BoraOS is a minimal, modern Linux distribution built on Arch Linux using the ArchISO build system. It features the Hyprland Wayland compositor with a curated selection of modern applications and tools for **x86_64 systems**.
 
 ---
 
@@ -53,230 +13,301 @@ sudo ./build/build-arm.sh
 ### Desktop Environment
 - **Compositor**: Hyprland (modern tiling Wayland compositor)
 - **Display Manager**: SDDM with auto-login for live mode
-- **Panel**: Waybar (medium profile with system information)
-- **Wallpaper Manager**: hyprpaper with abstract modern wallpapers
+- **Panel**: Waybar with system information
+- **Wallpaper Manager**: hyprpaper with modern wallpapers
 - **Application Launcher**: rofi-wayland
 
 ### Core Applications
-- **Terminal**: Alacritty (GPU-accelerated terminal emulator)
-- **File Manager**: Yazi (modern terminal file manager)
-- **System Monitor**: btop
-- **Audio Control**: pavucontrol
+- **Browser**: Firefox
+- **Terminal**: Alacritty (GPU-accelerated)
+- **File Manager**: Yazi (modern TUI)
+- **System Monitor**: btop, htop
+- **Utilities**: fastfetch, git, curl, wget
 
 ### System Configuration
-- **Base**: Arch Linux / Arch Linux ARM
-- **Build System**: ArchISO with custom build scripts
-- **Filesystem**: squashfs with zstd compression (level 15)
+- **Base**: Arch Linux (x86_64)
+- **Kernel**: Linux
+- **Build System**: ArchISO with automated scripts
+- **Filesystem**: squashfs (zstd compression)
 - **Audio**: PipeWire + WirePlumber
-- **Networking**: NetworkManager with nm-applet
-- **Bluetooth**: Bluez (enabled)
-- **Time Sync**: systemd-timesyncd (enabled)
+- **Network**: NetworkManager
+- **Bluetooth**: Bluez
+- **Packages**: 129 packages (all from official repositories)
+
+### Bootloaders
+- **UEFI**: systemd-boot or GRUB
+- **BIOS**: Syslinux
+- Multi-boot support out of the box
 
 ---
 
-## Directory Structure
+## Quick Start
 
-```
-BoraOS/
-├── README.md                      # This file
-├── Bora_OS_x86/                  # x86_64 build (production)
-│   ├── README.md
-│   ├── build/
-│   │   ├── build-x86.sh          # x86_64 build script
-│   │   ├── environment.sh
-│   │   └── scripts/
-│   ├── profiledef.sh
-│   ├── pacman.conf
-│   ├── packages.x86_64
-│   ├── airootfs/
-│   ├── efiboot/                  # systemd-boot configuration
-│   ├── syslinux/                 # BIOS boot configuration
-│   └── grub/                     # GRUB configuration
-└── Bora_OS_ARM/                  # ARM64 build (experimental)
-    ├── README.md
-    ├── build/
-    │   ├── build-arm.sh          # ARM64 build script
-    │   ├── environment.sh
-    │   └── scripts/
-    ├── profiledef.sh
-    ├── pacman.conf
-    ├── packages.aarch64
-    ├── airootfs/
-    └── grub/                     # GRUB ARM64 configuration
+```bash
+# 1. Clone repository
+git clone https://github.com/BGirginn/BoraOS.git
+cd BoraOS/Bora_OS_x86
+
+# 2. Build ISO (requires Arch Linux x86_64)
+sudo ./build/build-x86.sh
+
+# 3. Find your ISO
+ls -lh build/out/boraos-0.1-x86_64.iso
 ```
 
+**Output**: `Bora_OS_x86/build/out/boraos-0.1-x86_64.iso` (~1.2 GB)
 
 ---
 
-## Prerequisites
+## Requirements
 
-### For x86_64 Build
-- Arch Linux x86_64 system
-- `archiso` package
-- Root access
-- 4GB RAM minimum
-- 10GB free disk space
+### Build System
+- Operating System: Arch Linux x86_64
+- Package: `archiso`
+- CPU: 2+ cores (4+ recommended)
+- RAM: 4GB minimum (8GB recommended)
+- Disk: 10GB free minimum
+- Network: Active internet connection
 
-### For ARM64 Build
-- Arch Linux ARM (aarch64) system
-- `archiso` and `uboot-tools` packages (optional)
-- Root access
-- 4GB RAM minimum
-- 10GB free disk space
+### Target System
+- Architecture: x86_64 (Intel/AMD)
+- RAM: 2GB minimum (4GB+ recommended)
+- Disk: 20GB+ for installation
+- Boot: UEFI or Legacy BIOS
 
 ---
 
 ## Building
 
-### x86_64 ISO
+### Install Dependencies
 
-1. Install dependencies:
 ```bash
+sudo pacman -Syu
 sudo pacman -S archiso
 ```
 
-2. Build:
+### Build Process
+
 ```bash
 cd Bora_OS_x86
 sudo ./build/build-x86.sh
 ```
 
-3. Output: `Bora_OS_x86/build/out/boraos-0.1-x86_64.iso`
-
-### ARM64 ISO/Image
-
-1. Install dependencies:
-```bash
-sudo pacman -S archiso uboot-tools
-```
-
-2. Build (UEFI ARM64):
-```bash
-cd Bora_OS_ARM
-sudo ./build/build-arm.sh
-```
-
-3. Build (Raspberry Pi):
-```bash
-cd Bora_OS_ARM
-export BOOTLOADER_TYPE=uboot
-sudo ./build/build-arm.sh
-```
-
-4. Output:
-   - UEFI: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.iso`
-   - RPi: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.img`
+The build takes approximately 10-20 minutes and produces:
+- `build/out/boraos-0.1-x86_64.iso` - Bootable ISO
+- `build/out/boraos-0.1-x86_64.iso.sha256` - Checksum
+- `build/logs/` - Build logs
 
 ---
 
 ## Testing
 
-### x86_64
-```bash
-# In QEMU
-qemu-system-x86_64 -enable-kvm -m 4096 -cdrom Bora_OS_x86/build/out/boraos-0.1-x86_64.iso -boot d
+### QEMU (Recommended)
 
-# Write to USB
-sudo dd if=Bora_OS_x86/build/out/boraos-0.1-x86_64.iso of=/dev/sdX bs=4M status=progress
+```bash
+# UEFI boot
+qemu-system-x86_64 -enable-kvm -m 4096 \
+  -cdrom Bora_OS_x86/build/out/boraos-0.1-x86_64.iso -boot d
+
+# BIOS boot
+qemu-system-x86_64 -enable-kvm -m 4096 -bios /usr/share/qemu/bios.bin \
+  -cdrom Bora_OS_x86/build/out/boraos-0.1-x86_64.iso -boot d
 ```
 
-### ARM64 (UEFI)
-```bash
-# In UTM (Apple Silicon) or QEMU
-# Create ARM64 VM and mount ISO
+### USB Drive
 
-# Write to USB
-sudo dd if=Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.iso of=/dev/sdX bs=4M status=progress
-```
+⚠️ **WARNING**: This will erase the USB drive!
 
-### ARM64 (Raspberry Pi)
 ```bash
-# Write to SD card
-sudo dd if=Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.img of=/dev/sdX bs=4M status=progress
+# Write ISO to USB
+sudo dd if=Bora_OS_x86/build/out/boraos-0.1-x86_64.iso \
+        of=/dev/sdX bs=4M status=progress conv=fsync
 sudo sync
+```
+
+---
+
+## Installation
+
+### Guided Installation
+
+Boot the ISO and run:
+```bash
+sudo archinstall
+```
+
+Follow the prompts for automated installation.
+
+### Manual Installation
+
+See full manual installation guide in [Bora_OS_x86/build/X86_BUILD_GUIDE.md](Bora_OS_x86/build/X86_BUILD_GUIDE.md)
+
+### ⚠️ Post-Installation Security
+
+**CRITICAL**: Run security hardening after installation:
+
+```bash
+sudo /usr/local/bin/boraos-post-install-security.sh
+```
+
+This removes passwordless sudo and hardens the system.
+See [Bora_OS_x86/SECURITY.md](Bora_OS_x86/SECURITY.md) for details.
+
+---
+
+## Customization
+
+### Package List
+
+Edit `Bora_OS_x86/packages.x86_64`:
+```bash
+nano Bora_OS_x86/packages.x86_64
+# Add packages (must be in official repos - core/extra)
+# Rebuild ISO to apply changes
+```
+
+### Desktop Configuration
+
+- **Hyprland**: `Bora_OS_x86/airootfs/root/.config/hypr/hyprland.conf`
+- **Waybar**: `Bora_OS_x86/airootfs/root/.config/waybar/`
+- **Alacritty**: `Bora_OS_x86/airootfs/root/.config/alacritty/alacritty.toml`
+
+### System Files
+
+Add custom files to `Bora_OS_x86/airootfs/`:
+```bash
+# Example: Add custom script
+mkdir -p Bora_OS_x86/airootfs/usr/local/bin
+echo '#!/bin/bash' > Bora_OS_x86/airootfs/usr/local/bin/myscript.sh
+chmod +x Bora_OS_x86/airootfs/usr/local/bin/myscript.sh
 ```
 
 ---
 
 ## Default Keybindings
 
-### Hyprland
-- `SUPER + RETURN`: Launch Alacritty terminal
-- `SUPER + D`: Launch rofi application launcher
-- `SUPER + E`: Launch Yazi file manager
-- `SUPER + Q`: Close active window
-- `SUPER + SHIFT + Q`: Exit Hyprland
-- `SUPER + V`: Toggle floating mode
-- `SUPER + F`: Fullscreen
-- `SUPER + [1-9]`: Switch to workspace
-- `SUPER + SHIFT + [1-9]`: Move window to workspace
-- `SUPER + h/j/k/l`: Move focus (vim keys)
-- `SUPER + SHIFT + h/j/k/l`: Move windows
-
----
-
-## Customization
-
-### x86_64
-- **Packages**: Edit `Bora_OS_x86/packages.x86_64`
-- **Hyprland**: Edit `Bora_OS_x86/airootfs/root/.config/hypr/hyprland.conf`
-- **System**: Edit files in `Bora_OS_x86/airootfs/etc/`
-
-### ARM64
-- **Packages**: Edit `Bora_OS_ARM/packages.aarch64`
-  - Note: Some x86_64 packages may not be available
-- **Hyprland**: Edit `Bora_OS_ARM/airootfs/root/.config/hypr/hyprland.conf`
-- **System**: Edit files in `Bora_OS_ARM/airootfs/etc/`
-
----
-
-## Architecture Comparison
-
-| Feature | x86_64 | ARM64 |
-|---------|--------|-------|
-| Kernel | linux | linux-aarch64 |
-| Bootloader | systemd-boot + Syslinux | GRUB or U-Boot |
-| Boot Modes | UEFI + BIOS | UEFI only (or U-Boot) |
-| GPU Drivers | Intel, AMD (Vulkan) | Device-specific |
-| Status | Production | Experimental |
-| Build Time | ~10-15 min | ~15-20 min |
+| Key Combination | Action |
+|-----------------|--------|
+| `SUPER + RETURN` | Open terminal (Alacritty) |
+| `SUPER + D` | Application launcher (Rofi) |
+| `SUPER + E` | File manager (Yazi) |
+| `SUPER + Q` | Close window |
+| `SUPER + SHIFT + Q` | Exit Hyprland |
+| `SUPER + F` | Fullscreen |
+| `SUPER + V` | Toggle floating |
+| `SUPER + [1-9]` | Switch workspace |
+| `SUPER + SHIFT + [1-9]` | Move window to workspace |
+| `SUPER + h/j/k/l` | Move focus (vim keys) |
 
 ---
 
 ## Documentation
 
-- **x86_64 Build**: See `Bora_OS_x86/build/BUILD_README.md`
-- **ARM64 Build**: See `Bora_OS_ARM/build/BUILD_README.md`
-- **x86_64 Usage**: See `Bora_OS_x86/README.md`
-- **ARM64 Usage**: See `Bora_OS_ARM/README.md`
+- **Build Guide**: [Bora_OS_x86/build/X86_BUILD_GUIDE.md](Bora_OS_x86/build/X86_BUILD_GUIDE.md)
+- **Technical**: [Bora_OS_x86/build/BUILD_README.md](Bora_OS_x86/build/BUILD_README.md)
+- **Security**: [Bora_OS_x86/SECURITY.md](Bora_OS_x86/SECURITY.md)
+- **User Guide**: [Bora_OS_x86/README.md](Bora_OS_x86/README.md)
 
 ---
 
-## Support
+## Troubleshooting
 
-### x86_64
-- Fully tested and production-ready
-- Standard Arch Linux packages
-- Community support available
+### Build Errors
 
-### ARM64
-- Experimental status
-- Some packages may be unavailable
-- Platform-specific issues possible
-- Best effort support
+**"mkarchiso: command not found"**
+```bash
+sudo pacman -S archiso
+```
+
+**"Package not found"**
+- Verify package exists in official repos
+- No AUR packages allowed in standard builds
+- Edit `packages.x86_64` to remove or replace
+
+**"No space left"**
+```bash
+sudo pacman -Sc  # Clean cache
+sudo rm -rf Bora_OS_x86/build/work  # Clean build artifacts
+```
+
+### Boot Issues
+
+**ISO won't boot**
+- Check BIOS/UEFI settings
+- Disable Secure Boot
+- Try different boot mode (UEFI/BIOS)
+
+**Black screen**
+- Use "Safe Mode" boot option
+- Try `nomodeset` kernel parameter
+
+More troubleshooting: [Bora_OS_x86/build/X86_BUILD_GUIDE.md](Bora_OS_x86/build/X86_BUILD_GUIDE.md#troubleshooting)
+
+---
+
+## Project Structure
+
+```
+BoraOS/
+├── README.md               # This file
+├── Bora_OS_x86/           # Complete x86_64 build system
+│   ├── README.md          # User guide
+│   ├── SECURITY.md        # Security documentation
+│   ├── packages.x86_64    # Package list (129 packages)
+│   ├── pacman.conf        # Repository configuration
+│   ├── profiledef.sh      # ArchISO profile
+│   ├── build/
+│   │   ├── build-x86.sh          # Main build script
+│   │   ├── BUILD_README.md       # Technical docs
+│   │   ├── X86_BUILD_GUIDE.md    # User build guide
+│   │   └── scripts/ (7 scripts)  # Build pipeline
+│   ├── airootfs/          # Root filesystem overlay
+│   ├── efiboot/           # systemd-boot config
+│   ├── syslinux/          # BIOS boot config
+│   └── grub/              # GRUB config
+└── issues.md              # Known issues
+```
+
+---
+
+## FAQ
+
+**Q: Can I build on non-Arch Linux?**  
+A: No. Requires x86_64 Arch Linux with `archiso` package.
+
+**Q: Can I add AUR packages?**  
+A: Not in standard build. Install AUR helper after system installation.
+
+**Q: How do I update the live ISO?**  
+A: Rebuild with updated packages. Once installed, use `pacman -Syu`.
+
+**Q: Is this production-ready?**  
+A: Yes for x86_64. Fully tested on Intel/AMD systems.
+
+**Q: What about ARM support?**  
+A: x86_64 only. No ARM support in this version.
 
 ---
 
 ## License
 
-BoraOS inherits licenses from its components. The base Arch Linux system is distributed under various open-source licenses. Please refer to individual package licenses for details.
+BoraOS inherits licenses from its components. Base Arch Linux packages are distributed under various open-source licenses. See individual package licenses for details.
+
+---
+
+## Contributing
+
+Contributions welcome! Areas:
+- Package suggestions
+- Bug reports and fixes
+- Documentation improvements
+- Custom themes
 
 ---
 
 **Version**: 0.1  
-**Sprint**: 5 (ARM64 support added)  
-**Status**: 
-- x86_64: Production-ready
-- ARM64: Experimental
+**Architecture**: x86_64 only  
+**Status**: Production-ready  
+**Last Updated**: 2025-12-04
 
-**Built with ❤️ using ArchISO**
+**Built with ❤️ using Arch Linux and ArchISO**

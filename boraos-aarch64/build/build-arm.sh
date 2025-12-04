@@ -9,7 +9,34 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
 NC='\033[0m'
+
+# Progress bar function
+show_progress() {
+    local current=$1
+    local total=$2
+    local description="$3"
+    local bar_length=50
+    
+    local percentage=$((current * 100 / total))
+    local filled=$((current * bar_length / total))
+    local empty=$((bar_length - filled))
+    
+    # Build the bar with # for filled and spaces for empty
+    local bar=""
+    for ((i=0; i<filled; i++)); do bar+="#"; done
+    for ((i=0; i<empty; i++)); do bar+=" "; done
+    
+    # Print progress with brackets
+    printf "\r${CYAN}[${bar}] ${percentage}%%${NC} ${description}    "
+}
+
+# Complete progress line
+complete_progress() {
+    echo ""  # New line after progress bar
+}
 
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -58,11 +85,20 @@ STEPS=(
 TOTAL_STEPS=${#STEPS[@]}
 CURRENT_STEP=0
 
+# Show initial overall progress
+echo ""
+show_progress 0 $TOTAL_STEPS "Starting build..."
+complete_progress
+
 # Execute each step
 for step in "${STEPS[@]}"; do
     CURRENT_STEP=$((CURRENT_STEP + 1))
     SCRIPT="${step%%:*}"
     DESCRIPTION="${step##*:}"
+    
+    # Show overall progress
+    show_progress $((CURRENT_STEP - 1)) $TOTAL_STEPS "Preparing: ${DESCRIPTION}"
+    complete_progress
     
     echo ""
     echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
@@ -84,7 +120,15 @@ for step in "${STEPS[@]}"; do
         echo "Check logs in build/logs/ for details"
         exit 1
     fi
+    
+    # Show progress after step completion
+    show_progress $CURRENT_STEP $TOTAL_STEPS "Completed: ${DESCRIPTION}"
+    complete_progress
 done
+
+# Final progress
+show_progress $TOTAL_STEPS $TOTAL_STEPS "Build pipeline completed!"
+complete_progress
 
 # Success!
 echo ""

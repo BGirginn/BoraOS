@@ -51,14 +51,14 @@ xorg-xwayland
 mesa
 vulkan-icd-loader
 # Vulkan drivers for common hardware - both included for live ISO compatibility
-vulkan-intel    # Intel integrated graphics
-vulkan-radeon   # AMD graphics
+vulkan-intel
+vulkan-radeon
 
 # Display Manager
 sddm
 # Qt5 and Qt6 Wayland support - both included for app compatibility
-qt5-wayland     # For Qt5-based applications
-qt6-wayland     # For Qt6-based applications
+qt5-wayland
+qt6-wayland
 
 # Desktop Environment - Hyprland
 hyprland
@@ -103,7 +103,6 @@ tar
 # System utilities
 nano
 vim
-neofetch
 man-db
 man-pages
 which
@@ -119,9 +118,6 @@ noto-fonts-emoji
 zstd
 gzip
 bzip2
-
-# Time sync
-systemd-timesyncd
 
 # ArchISO Specific - REQUIRED FOR BUILD
 syslinux

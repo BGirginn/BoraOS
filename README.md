@@ -13,13 +13,13 @@ BoraOS is a minimal, modern Linux distribution built on Arch Linux using the Arc
 ## Architectures
 
 ### x86_64 (Intel/AMD)
-- **Directory**: `boraos/`
-- **Bootloader**: systemd-boot (UEFI) + Syslinux (BIOS)
+- **Directory**: `Bora_OS_x86/`
+- **Bootloader**: systemd-boot (UEFI), Syslinux (BIOS), GRUB (both)
 - **Status**: Production-ready
-- **Platforms**: Standard PCs, laptops, servers
+- **Platforms**: Standard PCs, laptops, servers, VMs
 
 ### ARM64 (aarch64)
-- **Directory**: `boraos-aarch64/`
+- **Directory**: `Bora_OS_ARM/`
 - **Bootloader**: GRUB (UEFI ARM64) or U-Boot (Raspberry Pi)
 - **Status**: Experimental
 - **Platforms**: Raspberry Pi 4/5, Apple Silicon, ARM servers
@@ -30,21 +30,21 @@ BoraOS is a minimal, modern Linux distribution built on Arch Linux using the Arc
 
 ### x86_64 Build
 ```bash
-cd boraos
-sudo ./build/build.sh
+cd Bora_OS_x86
+sudo ./build/build-x86.sh
 ```
 
-**Output**: `boraos/build/out/boraos-0.1-x86_64.iso`
+**Output**: `Bora_OS_x86/build/out/boraos-0.1-x86_64.iso`
 
 ### ARM64 Build
 ```bash
-cd boraos-aarch64
+cd Bora_OS_ARM
 sudo ./build/build-arm.sh
 ```
 
 **Output**: 
-- UEFI: `boraos-aarch64/build/out/boraos-arm-0.1-aarch64.iso`
-- Raspberry Pi: `boraos-aarch64/build/out/boraos-arm-0.1-aarch64.img`
+- UEFI: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.iso`
+- Raspberry Pi: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.img`
 
 ---
 
@@ -79,28 +79,32 @@ sudo ./build/build-arm.sh
 ```
 BoraOS/
 ├── README.md                      # This file
-├── SPRINT5_ARM_IMPLEMENTATION_PLAN.md
-├── boraos/                        # x86_64 build (production)
+├── Bora_OS_x86/                  # x86_64 build (production)
 │   ├── README.md
 │   ├── build/
-│   │   ├── build.sh               # x86_64 build script
-│   │   ├── BUILD_README.md
+│   │   ├── build-x86.sh          # x86_64 build script
+│   │   ├── environment.sh
 │   │   └── scripts/
 │   ├── profiledef.sh
 │   ├── pacman.conf
 │   ├── packages.x86_64
-│   └── airootfs/
-└── boraos-aarch64/                # ARM64 build (experimental)
+│   ├── airootfs/
+│   ├── efiboot/                  # systemd-boot configuration
+│   ├── syslinux/                 # BIOS boot configuration
+│   └── grub/                     # GRUB configuration
+└── Bora_OS_ARM/                  # ARM64 build (experimental)
     ├── README.md
     ├── build/
-    │   ├── build-arm.sh           # ARM64 build script
-    │   ├── BUILD_README.md
+    │   ├── build-arm.sh          # ARM64 build script
+    │   ├── environment.sh
     │   └── scripts/
     ├── profiledef.sh
     ├── pacman.conf
     ├── packages.aarch64
-    └── airootfs/
+    ├── airootfs/
+    └── grub/                     # GRUB ARM64 configuration
 ```
+
 
 ---
 
@@ -115,7 +119,7 @@ BoraOS/
 
 ### For ARM64 Build
 - Arch Linux ARM (aarch64) system
-- `archiso` and `uboot-tools` packages
+- `archiso` and `uboot-tools` packages (optional)
 - Root access
 - 4GB RAM minimum
 - 10GB free disk space
@@ -133,11 +137,11 @@ sudo pacman -S archiso
 
 2. Build:
 ```bash
-cd boraos
-sudo ./build/build.sh
+cd Bora_OS_x86
+sudo ./build/build-x86.sh
 ```
 
-3. Output: `boraos/build/out/boraos-0.1-x86_64.iso`
+3. Output: `Bora_OS_x86/build/out/boraos-0.1-x86_64.iso`
 
 ### ARM64 ISO/Image
 
@@ -148,20 +152,20 @@ sudo pacman -S archiso uboot-tools
 
 2. Build (UEFI ARM64):
 ```bash
-cd boraos-aarch64
+cd Bora_OS_ARM
 sudo ./build/build-arm.sh
 ```
 
 3. Build (Raspberry Pi):
 ```bash
-cd boraos-aarch64
+cd Bora_OS_ARM
 export BOOTLOADER_TYPE=uboot
 sudo ./build/build-arm.sh
 ```
 
 4. Output:
-   - UEFI: `boraos-aarch64/build/out/boraos-arm-0.1-aarch64.iso`
-   - RPi: `boraos-aarch64/build/out/boraos-arm-0.1-aarch64.img`
+   - UEFI: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.iso`
+   - RPi: `Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.img`
 
 ---
 
@@ -170,10 +174,10 @@ sudo ./build/build-arm.sh
 ### x86_64
 ```bash
 # In QEMU
-qemu-system-x86_64 -enable-kvm -m 4096 -cdrom boraos/build/out/boraos-0.1-x86_64.iso -boot d
+qemu-system-x86_64 -enable-kvm -m 4096 -cdrom Bora_OS_x86/build/out/boraos-0.1-x86_64.iso -boot d
 
 # Write to USB
-sudo dd if=boraos/build/out/boraos-0.1-x86_64.iso of=/dev/sdX bs=4M status=progress
+sudo dd if=Bora_OS_x86/build/out/boraos-0.1-x86_64.iso of=/dev/sdX bs=4M status=progress
 ```
 
 ### ARM64 (UEFI)
@@ -182,13 +186,13 @@ sudo dd if=boraos/build/out/boraos-0.1-x86_64.iso of=/dev/sdX bs=4M status=progr
 # Create ARM64 VM and mount ISO
 
 # Write to USB
-sudo dd if=boraos-aarch64/build/out/boraos-arm-0.1-aarch64.iso of=/dev/sdX bs=4M status=progress
+sudo dd if=Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.iso of=/dev/sdX bs=4M status=progress
 ```
 
 ### ARM64 (Raspberry Pi)
 ```bash
 # Write to SD card
-sudo dd if=boraos-aarch64/build/out/boraos-arm-0.1-aarch64.img of=/dev/sdX bs=4M status=progress
+sudo dd if=Bora_OS_ARM/build/out/boraos-arm-0.1-aarch64.img of=/dev/sdX bs=4M status=progress
 sudo sync
 ```
 
@@ -214,15 +218,15 @@ sudo sync
 ## Customization
 
 ### x86_64
-- **Packages**: Edit `boraos/packages.x86_64`
-- **Hyprland**: Edit `boraos/airootfs/root/.config/hypr/hyprland.conf`
-- **System**: Edit files in `boraos/airootfs/etc/`
+- **Packages**: Edit `Bora_OS_x86/packages.x86_64`
+- **Hyprland**: Edit `Bora_OS_x86/airootfs/root/.config/hypr/hyprland.conf`
+- **System**: Edit files in `Bora_OS_x86/airootfs/etc/`
 
 ### ARM64
-- **Packages**: Edit `boraos-aarch64/packages.aarch64`
+- **Packages**: Edit `Bora_OS_ARM/packages.aarch64`
   - Note: Some x86_64 packages may not be available
-- **Hyprland**: Edit `boraos-aarch64/airootfs/root/.config/hypr/hyprland.conf`
-- **System**: Edit files in `boraos-aarch64/airootfs/etc/`
+- **Hyprland**: Edit `Bora_OS_ARM/airootfs/root/.config/hypr/hyprland.conf`
+- **System**: Edit files in `Bora_OS_ARM/airootfs/etc/`
 
 ---
 
@@ -241,10 +245,10 @@ sudo sync
 
 ## Documentation
 
-- **x86_64 Build**: See `boraos/build/BUILD_README.md`
-- **ARM64 Build**: See `boraos-aarch64/build/BUILD_README.md`
-- **x86_64 Usage**: See `boraos/README.md`
-- **ARM64 Usage**: See `boraos-aarch64/README.md`
+- **x86_64 Build**: See `Bora_OS_x86/build/BUILD_README.md`
+- **ARM64 Build**: See `Bora_OS_ARM/build/BUILD_README.md`
+- **x86_64 Usage**: See `Bora_OS_x86/README.md`
+- **ARM64 Usage**: See `Bora_OS_ARM/README.md`
 
 ---
 

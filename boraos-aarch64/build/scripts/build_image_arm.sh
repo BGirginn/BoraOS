@@ -49,34 +49,80 @@ else
     # Build ISO using mkarchiso (for UEFI ARM64)
     echo "  Building ISO for UEFI ARM64..."
     
-    # Run mkarchiso with automatic confirmation and retry logic
-    # Use 'yes' to automatically answer prompts (e.g., "Proceed with installation? [Y/n]")
-    MAX_RETRIES=3
-    RETRY_COUNT=0
-    BUILD_SUCCESS=false
+    # Colors for progress bars
+    CYAN='\033[0;36m'
+    YELLOW='\033[1;33m'
+    NC='\033[0m'
     
-    while [ $RETRY_COUNT -lt $MAX_RETRIES ] && [ "$BUILD_SUCCESS" = false ]; do
-        if [ $RETRY_COUNT -gt 0 ]; then
-            echo ""
-            echo "  Retry attempt $RETRY_COUNT/$MAX_RETRIES..."
-            echo "  Waiting 10 seconds before retry..."
-            sleep 10
+    # Function to show package download progress
+    show_package_progress() {
+        local current=$1
+        local total=$2
+        local bar_length=50
+        
+        if [ $total -eq 0 ]; then return; fi
+        
+        local percentage=$((current * 100 / total))
+        local filled=$((current * bar_length / total))
+        local empty=$((bar_length - filled))
+        
+        # Build bar with - for packages (different from main #)
+        local bar=""
+        for ((i=0; i<filled; i++)); do bar+="-"; done
+        for ((i=0; i<empty; i++)); do bar+=" "; done
+        
+        printf "\r${YELLOW}Packages: [${bar}] ${percentage}%% (${current}/${total})${NC}    "
+    }
+    
+    # Start mkarchiso in background with log monitoring
+    yes | mkarchiso -v -w build/work -o build/out build/work/profile > "$LOG_FILE" 2>&1 &
+    MKARCHISO_PID=$!
+    
+    # Monitor log for package installation progress
+    TOTAL_PACKAGES=0
+    INSTALLED_PACKAGES=0
+    MONITORING=true
+    
+    echo ""
+    
+    while [ "$MONITORING" = true ]; do
+        sleep 0.5
+        
+        if [ -f "$LOG_FILE" ]; then
+            # Try to extract total packages count
+            if [ $TOTAL_PACKAGES -eq 0 ]; then
+                TOTAL_PACKAGES=$(grep -o "Packages ([0-9]*)" "$LOG_FILE" 2>/dev/null | grep -o "[0-9]*" | head -1 || echo "0")
+            fi
+            
+            # Count installed packages (look for completed installations)
+            if [ $TOTAL_PACKAGES -gt 0 ]; then
+                INSTALLED_PACKAGES=$(grep -c "installing\|upgraded\|reinstalled" "$LOG_FILE" 2>/dev/null || echo "0")
+                
+                # Show package progress if available
+                if [ $INSTALLED_PACKAGES -gt 0 ] || [ $TOTAL_PACKAGES -gt 0 ]; then
+                    show_package_progress $INSTALLED_PACKAGES $TOTAL_PACKAGES
+                fi
+            fi
         fi
         
-        if yes | mkarchiso -v -w build/work -o build/out build/work/profile > "$LOG_FILE" 2>&1; then
-            BUILD_SUCCESS=true
-            echo "  ✓ ISO build completed"
-        else
-            RETRY_COUNT=$((RETRY_COUNT + 1))
-            if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
-                echo "  ⚠️  Build failed, retrying..."
-            fi
+        # Check if mkarchiso is still running
+        if ! kill -0 $MKARCHISO_PID 2>/dev/null; then
+            MONITORING=false
         fi
     done
     
-    if [ "$BUILD_SUCCESS" = false ]; then
+    # Wait for mkarchiso to complete
+    wait $MKARCHISO_PID
+    BUILD_EXIT_CODE=$?
+    
+    # Clear package progress line
+    printf "\r\033[K"
+    
+    if [ $BUILD_EXIT_CODE -eq 0 ]; then
+        echo "  ✓ ISO build completed"
+    else
         echo ""
-        echo "ERROR: mkarchiso failed after $MAX_RETRIES attempts!"
+        echo "ERROR: mkarchiso failed!"
         echo "Check log: $LOG_FILE"
         tail -20 "$LOG_FILE"
         exit 1

@@ -29,13 +29,8 @@ show_progress() {
     for ((i=0; i<filled; i++)); do bar+="#"; done
     for ((i=0; i<empty; i++)); do bar+=" "; done
     
-    # Print progress with brackets
+    # Print progress with brackets (overwrites same line with \r)
     printf "\r${CYAN}[${bar}] ${percentage}%%${NC} ${description}    "
-}
-
-# Complete progress line
-complete_progress() {
-    echo ""  # New line after progress bar
 }
 
 # Get script directory
@@ -85,10 +80,10 @@ STEPS=(
 TOTAL_STEPS=${#STEPS[@]}
 CURRENT_STEP=0
 
-# Show initial overall progress
+# Show initial overall progress at bottom
 echo ""
 show_progress 0 $TOTAL_STEPS "Starting build..."
-complete_progress
+sleep 0.5
 
 # Execute each step
 for step in "${STEPS[@]}"; do
@@ -96,10 +91,12 @@ for step in "${STEPS[@]}"; do
     SCRIPT="${step%%:*}"
     DESCRIPTION="${step##*:}"
     
-    # Show overall progress
+    # Update progress bar (stays on same line)
     show_progress $((CURRENT_STEP - 1)) $TOTAL_STEPS "Preparing: ${DESCRIPTION}"
-    complete_progress
+    sleep 0.3
     
+    # Clear progress line and show step header
+    printf "\r\033[K"  # Clear current line
     echo ""
     echo -e "${BLUE}═══════════════════════════════════════════════════════${NC}"
     echo -e "${BLUE}Step $CURRENT_STEP/$TOTAL_STEPS: ${DESCRIPTION}${NC}"
@@ -112,6 +109,7 @@ for step in "${STEPS[@]}"; do
     fi
     
     if ! bash "build/scripts/$SCRIPT"; then
+        printf "\r\033[K"  # Clear progress line
         echo ""
         echo -e "${RED}╔════════════════════════════════════════╗${NC}"
         echo -e "${RED}║  BUILD FAILED at step $CURRENT_STEP/$TOTAL_STEPS        ║${NC}"
@@ -121,14 +119,14 @@ for step in "${STEPS[@]}"; do
         exit 1
     fi
     
-    # Show progress after step completion
+    # Update progress bar after step completion (overwrites same line)
     show_progress $CURRENT_STEP $TOTAL_STEPS "Completed: ${DESCRIPTION}"
-    complete_progress
+    sleep 0.5
 done
 
-# Final progress
+# Final progress - complete and move to new line
 show_progress $TOTAL_STEPS $TOTAL_STEPS "Build pipeline completed!"
-complete_progress
+echo ""  # Move to new line after final progress
 
 # Success!
 echo ""

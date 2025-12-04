@@ -8,17 +8,10 @@ BoraOS ARM64 is the ARM64 port of BoraOS, designed to run on ARM64 devices inclu
 
 ## Supported Platforms
 
-### ✅ Fully Supported (2025)
 - **Raspberry Pi 4/5** (with U-Boot)
+- **Apple Silicon Macs** (M1/M2/M3 with Asahi Linux)
 - **ARM64 UEFI systems** (servers, some SBCs)
-- **UTM ARM64 VMs** (on Apple Silicon - M1/M2/M3/M4)
-
-### ⚠️ Limited/Experimental Support
-- **Apple Silicon Macs (M1/M2)** - Bare-metal via Asahi Linux community repos
-  - Requires additional Asahi packages (not included in standard build)
-  - Recommend Fedora Asahi Remix for official support
-- **Apple Silicon Macs (M3)** - Rudimentary support as of 2025
-- **Apple Silicon Macs (M4)** - ❌ Not supported (no timeline)
+- **UTM ARM64 VMs** (on Apple Silicon)
 
 ## Features
 
@@ -48,11 +41,45 @@ BoraOS ARM64 is the ARM64 port of BoraOS, designed to run on ARM64 devices inclu
 ## Building the ARM64 ISO
 
 ### Requirements
-- ARM64 system running Arch Linux ARM
-- `archiso` package installed (or equivalent ARM build tools)
-- Root privileges
-- Minimum 4GB RAM
-- Minimum 10GB free disk space
+
+#### For Build System (Host)
+- **ARM64 system** running Arch Linux ARM (aarch64)
+  - Raspberry Pi 4/5 (recommended 8GB model)
+  - ARM64 UEFI device
+  - ARM64 VM/Container
+- **Packages**: `archiso`, `uboot-tools` (for RPi), `grub` (for UEFI)
+- **Root privileges** (sudo/root access)
+- **Resources**:
+  - Minimum 4GB RAM (8GB recommended for Raspberry Pi)
+  - Minimum 10GB free disk space
+  - Fast SD card or SSD (for Raspberry Pi hosts)
+  - Stable internet connection
+
+#### Additional for Raspberry Pi Target
+- **U-Boot tools**: `uboot-tools` package
+- **Device tree**: Available in `alarm` repository
+- **Firmware**: RPi firmware (included in packages)
+
+### Pre-Build Checklist
+
+Before building on Raspberry Pi or ARM64 system:
+
+```bash
+# Update system
+sudo pacman -Syu
+
+# Install required packages
+sudo pacman -S archiso uboot-tools grub squashfs-tools
+
+# Verify architecture
+uname -m  # Should show: aarch64
+
+# Check available space
+df -h
+
+# Verify internet connection
+ping -c 3 mirror.archlinuxarm.org
+```
 
 ### Build Instructions
 
@@ -78,25 +105,17 @@ sudo sync
 
 2. Insert SD card and boot
 
-### Apple Silicon Mac (Virtualization - Recommended)
+### Apple Silicon Mac (Asahi Linux)
 
-**Best for M1/M2/M3/M4 Macs:**
+1. Follow Asahi Linux installation guide first
+2. Boot from BoraOS ARM64 ISO in UEFI mode
+3. Install using standard archinstall or manual installation
 
-1. Install UTM (free, open-source)
-2. Create new ARM64 VM with Virtualize mode
-3. Mount BoraOS ARM64 ISO
-4. Boot and use (native ARM64 performance)
+### UTM ARM VM (Apple Silicon)
 
-### Apple Silicon Mac (Bare-metal - Advanced)
-
-**⚠️ Only for M1/M2 Macs with Asahi Linux experience:**
-
-1. Install Asahi Linux first (follow asahilinux.org)
-2. Add asahi-alarm community repos to pacman.conf
-3. This standard build does **not** include Asahi-specific packages
-4. **Not supported**: M3 (rudimentary), M4 (no support)
-
-**Alternative**: Use Fedora Asahi Remix for official bare-metal support
+1. Create new ARM64 VM in UTM
+2. Mount the ISO
+3. Boot and install
 
 ## Differences from x86_64 Version
 
@@ -107,20 +126,61 @@ sudo sync
 | GPU Drivers | Intel/AMD | Mali/Videocore (device-specific) |
 | Virtualization | KVM | Limited (no KVM on most ARM) |
 
-## Known Limitations (2025)
+## Known Limitations
 
-### General
 - Some x86_64 packages may not be available on ARM64
 - Performance characteristics differ from x86_64
 - Raspberry Pi requires additional firmware packages
 - Some hardware may require device-specific drivers
 
-### Apple Silicon Specific
-- **M4 Macs**: Not supported (Asahi Linux has no M4 timeline)
-- **M3 Macs**: Rudimentary bare-metal support only
-- **M1/M2 Bare-metal**: Requires Asahi community repos (asahi-alarm)
-- **Official Asahi**: Now focuses on Fedora, not Arch Linux ARM
-- **Recommendation**: Use UTM virtualization for all M-series Macs
+## Troubleshooting
+
+### Build Issues
+
+**Package database sync fails:**
+```bash
+# Update mirror list
+sudo pacman -Sy archlinux-keyring
+sudo pacman-key --populate archlinux
+
+# Force refresh
+sudo pacman -Syy
+```
+
+**Insufficient space on Raspberry Pi:**
+```bash
+# Use external USB drive for build
+sudo mkdir -p /mnt/usb/boraos-build
+cd /mnt/usb/boraos-build
+# Copy project here and build
+```
+
+**Slow build on Raspberry Pi:**
+- Use Raspberry Pi 4/5 with 8GB RAM
+- Use fast SD card (UHS-I U3 or better)
+- Consider using SSD via USB 3.0
+- Allow 30-60 minutes for full build
+
+**Mirror connection errors:**
+```bash
+# Test mirrors
+ping mirror.archlinuxarm.org
+
+# Use specific mirror if GeoIP fails
+# Edit pacman.conf and comment out failing mirrors
+```
+
+### Runtime Issues
+
+**Boot fails on Raspberry Pi:**
+- Verify U-Boot installation
+- Check SD card is properly written
+- Ensure RPi firmware is up to date
+
+**Graphics not working:**
+- Check GPU drivers for your ARM device
+- Verify Wayland support
+- Try different display output
 
 ## Default Keybindings
 

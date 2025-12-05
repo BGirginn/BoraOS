@@ -1,0 +1,149 @@
+# BoraOS 0.1 ARM (aarch64) Package List
+# Optimized for Generic ARM UEFI devices and UTM/QEMU
+#
+# NOTE: All packages verified against Arch Linux ARM (ALARM) repositories
+# Some x86_64 packages are NOT available on ARM
+
+# Base system
+base
+base-devel
+linux-aarch64
+linux-aarch64-headers
+linux-firmware
+
+# Boot and system
+systemd
+systemd-sysvcompat
+efibootmgr
+# GRUB optional for Generic ARM UEFI - systemd-boot is primary
+grub
+os-prober
+
+# Filesystem - CORE
+btrfs-progs
+dosfstools
+e2fsprogs
+exfatprogs
+ntfs-3g
+squashfs-tools
+
+# Filesystem - ENHANCED
+xfsprogs
+f2fs-tools
+
+# Networking
+networkmanager
+nm-connection-editor
+network-manager-applet
+bluez
+bluez-utils
+
+# Network Tools - CORE
+ethtool
+iw
+wireless_tools
+net-tools
+
+# Audio
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+pavucontrol
+
+# Wayland and Graphics
+wayland
+xorg-xwayland
+mesa
+vulkan-icd-loader
+# NOTE: vulkan-intel and vulkan-radeon are x86_64 ONLY
+# ARM uses mesa vulkan drivers automatically
+
+# Display Manager
+sddm
+qt5-wayland
+qt6-wayland
+
+# Desktop Environment - Hyprland
+hyprland
+xdg-desktop-portal-hyprland
+
+# Hyprland CORE Extensions
+hyprlock
+hypridle
+cliphist
+grim
+slurp
+
+# Core Applications
+alacritty
+yazi
+rofi-wayland
+hyprpaper
+waybar
+firefox
+
+# CLI Tools - CORE
+usbutils
+pciutils
+rsync
+p7zip
+unzip
+
+# CLI Tools - ENHANCED
+btop
+htop
+fastfetch
+
+# Development and utilities
+git
+curl
+wget
+
+# File management
+zip
+tar
+
+# System utilities
+nano
+vim
+man-db
+man-pages
+which
+sudo
+
+# Fonts
+ttf-dejavu
+ttf-liberation
+noto-fonts
+noto-fonts-emoji
+
+# Archive and compression
+zstd
+gzip
+bzip2
+
+# Polkit (GUI authentication)
+polkit
+polkit-gnome
+
+# Lock screen and brightness
+swaylock
+brightnessctl
+
+# Clipboard
+wl-clipboard
+
+# Shell
+zsh
+
+# Cursor theme
+breeze
+
+# ArchISO Specific - REQUIRED FOR BUILD
+# NOTE: syslinux and memtest86+ are NOT available on ARM
+arch-install-scripts
+archinstall
+mtools
+edk2-shell

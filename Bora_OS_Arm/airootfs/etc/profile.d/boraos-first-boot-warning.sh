@@ -8,7 +8,8 @@ MARKER_FILE="/var/lib/boraos-security-hardened"
 WARNING_SHOWN="/var/lib/boraos-first-boot-warning-shown"
 
 # Only show if system is installed (not live environment)
-if [ -f /run/archiso/bootmnt/.arch/pkglist.x86_64.txt ]; then
+# Check for both x86_64 and aarch64 pkglist files
+if [ -f /run/archiso/bootmnt/.arch/pkglist.x86_64.txt ] || [ -f /run/archiso/bootmnt/.arch/pkglist.aarch64.txt ]; then
     # Live environment, don't show warning
     exit 0
 fi

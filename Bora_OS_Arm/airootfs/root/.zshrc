@@ -22,14 +22,14 @@ autoload -Uz compinit
 compinit
 
 # Aliases
-alias ls='lsd'
-alias ll='lsd -lah'
-alias la='lsd -a'
-alias cat='bat'
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias la='ls -a --color=auto'
+alias cat='cat'
 alias grep='grep --color=auto'
 alias df='df -h'
 alias free='free -h'
-alias vim='nvim'
+# vim is installed in packages.aarch64
 
 # BoraOS specific aliases
 alias install='archinstall'

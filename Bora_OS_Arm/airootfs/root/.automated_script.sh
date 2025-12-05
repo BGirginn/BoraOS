@@ -33,7 +33,7 @@ systemctl enable sddm.service
 systemctl enable systemd-timesyncd.service
 
 # Set up console keymap
-echo "KEYMAP=us" > /etc/vconsole.conf
+echo "KEYMAP=trq" > /etc/vconsole.conf
 
 # Create welcome message
 cat > /etc/motd << 'EOF'

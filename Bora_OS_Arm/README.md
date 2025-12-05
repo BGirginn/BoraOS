@@ -23,14 +23,36 @@ This profile creates a bootable BoraOS live ISO for ARM64 architecture, featurin
 ## Quick Build
 
 ```bash
-# From project root
-sudo ./build.sh --arch=aarch64
-
-# Or from this directory
+# From this directory
 sudo ./build/build-arm.sh
 ```
 
 **Requirement**: Must be run on an aarch64 system (e.g., UTM Arch Linux ARM)
+
+## Build Architecture
+
+```mermaid
+graph TB
+    subgraph "Bora_OS_Arm"
+        PD[profiledef.sh]
+        PKG[packages.aarch64]
+        PC[pacman.conf]
+        AR[airootfs/]
+    end
+    
+    subgraph "build/"
+        BA[build-arm.sh]
+        SC[scripts/]
+    end
+    
+    BA --> SC
+    SC --> |mkarchiso| ISO[boraos-0.1-aarch64.iso]
+    
+    PD --> BA
+    PKG --> BA
+    PC --> BA
+    AR --> BA
+```
 
 ## Directory Structure
 
@@ -71,8 +93,3 @@ build/out/
 ## Documentation
 
 See [ARM_BUILD_GUIDE.md](build/ARM_BUILD_GUIDE.md) for complete build instructions.
-
-## Related
-
-- [x86_64 Profile](../Bora_OS_x86/README.md)
-- [Unified Build Script](../build.sh)

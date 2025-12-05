@@ -119,6 +119,23 @@ zstd
 gzip
 bzip2
 
+# Polkit (GUI authentication - referenced in hyprland.conf)
+polkit
+polkit-gnome
+
+# Lock screen and brightness (referenced in hyprland.conf keybinds)
+swaylock
+brightnessctl
+
+# Clipboard (for screenshot copy)
+wl-clipboard
+
+# Shell (root uses .zshrc)
+zsh
+
+# Cursor theme (SDDM references breeze)
+breeze
+
 # ArchISO Specific - REQUIRED FOR BUILD
 syslinux
 arch-install-scripts
